@@ -13,6 +13,7 @@ html,
 .root {
   padding: 0;
   margin: 0;
+  background-color: rgb(0, 0, 0);
 }
 .budget,
 .state,
@@ -36,20 +37,16 @@ html,
   padding: 0;
 }
 
-.test {
+#sticky-header {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: end;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
-.a {
-  flex: 1;
-  background-color: red;
-}
-.b {
-  flex: 1;
-  background-color: rgb(26, 216, 16);
-}
-.c {
-  flex: 1;
-  background-color: rgb(95, 18, 121);
+
+#drawTree,
+#searchValue,
+#search {
+  font-size: 22px;
 }

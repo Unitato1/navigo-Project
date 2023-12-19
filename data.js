@@ -32861,15 +32861,17 @@ const colors = [
   "#DDD0C8",
 ];
 // tangerine yellow, Harley Davidson Orange, Malachite green, Yellow-green, dim grey, Lime,  Beige
+function draw_tree(data, prefix) {
+  tree.innerHTML = "";
+  draw_tree(data, prefix);
+}
 
 function draw_tree(data, prefix) {
   if (types[data.type] === undefined) {
     types[data.type] = chooce_Color();
-    console.log(types);
   }
   createTask(data, prefix);
   let count_child = 1;
-  console.log(data.type);
   data.children.forEach((child) => {
     if (prefix == "") {
       draw_tree(child, prefix + count_child);
@@ -32909,12 +32911,39 @@ function not_dot(word) {
 }
 
 function chooce_Color() {
-  if (indx_color == colors.length) {
+  if (indx_color === colors.length) {
     return "#" + Math.floor(Math.random() * 16777215).toString(16);
   }
   const color = colors[indx_color];
-  indx_color ++;
+  indx_color++;
   return color;
 }
 
+function draw_path(path, data) {
+  let prefix = "";
+
+  for (let i = 0; i < path.length; i++) {
+    const child = path[i];
+  }
+}
+
+function find_child(data, path, value) {
+  if (data.name.toLowerCase() === value) {
+    console.log(data.name, value);
+    path.push(data);
+    return path;
+  }
+  path.push(data);
+  for (let i = 0; i < data.children.length; i++) {
+    const child = data.children[i];
+    const pathCopy = [...path];
+    result = find_child(child, pathCopy, value);
+    if (result !== undefined) {
+      return result;
+    }
+  }
+  return undefined;
+}
+
+console.log(find_child(g_data, [], "Proof of concept"), "A");
 draw_tree(g_data, "");
