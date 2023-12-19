@@ -1,19 +1,15 @@
 .container {
-  border: 1px black solid;
+  border: 0.5px #3d3d3d solid;
+  border-radius: 25px 0px 25px 0px;
   padding: 10px;
-  height: 40px;
   margin-bottom: 4px;
-  margin-left: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
   flex: 1;
 }
 html,
 .root {
-  padding: 0;
-  margin: 0;
-  background-color: rgb(255, 255, 255);
+  background-color: #eceff1;
 }
 .budget,
 .state,
@@ -33,8 +29,6 @@ html,
 #tree {
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
 }
 
 #sticky-header {
@@ -49,6 +43,7 @@ html,
 #search {
   margin-right: 15px;
 }
+
 #draw-tree,
 #search-text,
 #search {
