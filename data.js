@@ -32841,6 +32841,21 @@ const g_data = {
   workTypePlanDetail: null,
 };
 
+const draw_tree_id = document.getElementById("draw-tree");
+draw_tree_id.addEventListener("click", () => {
+  draw_tree(g_data, "");
+});
+const search = document.getElementById("search");
+const search_text = document.getElementById("search-text");
+
+search.addEventListener("click", () => {
+  let value = search_text.value;
+  let path = find_path(g_data, [], value);
+  if (path !== undefined) {
+    draw_path(path);
+  }
+});
+
 const padding = 15;
 const tree = document.getElementById("tree");
 let types = {};
@@ -32862,11 +32877,11 @@ const colors = [
 ];
 // tangerine yellow, Harley Davidson Orange, Malachite green, Yellow-green, dim grey, Lime,  Beige
 function draw_tree(data, prefix) {
-  tree.innerHTML = "";
-  draw_tree(data, prefix);
+  clear_tree();
+  draw_tree_rec(data, prefix);
 }
 
-function draw_tree(data, prefix) {
+function draw_tree_rec(data, prefix) {
   if (types[data.type] === undefined) {
     types[data.type] = chooce_Color();
   }
@@ -32874,12 +32889,32 @@ function draw_tree(data, prefix) {
   let count_child = 1;
   data.children.forEach((child) => {
     if (prefix == "") {
-      draw_tree(child, prefix + count_child);
+      draw_tree_rec(child, prefix + count_child);
     } else {
-      draw_tree(child, prefix + "." + count_child);
+      draw_tree_rec(child, prefix + "." + count_child);
     }
     count_child++;
   });
+}
+
+function draw_path(path) {
+  let prefix = "";
+  clear_tree();
+  let last = undefined;
+  for (let i = 0; i < path.length; i++) {
+    let child = path[i];
+    if (last !== undefined) {
+      let prefix_add = last.children.indexOf(child) + 1;
+      if (prefix === "") {
+        prefix += prefix_add;
+      } else {
+        prefix += "." + prefix_add;
+      }
+    }
+    console.log(child, prefix);
+    createTask(child, prefix);
+    last = child;
+  }
 }
 
 function createTask(data, prefix) {
@@ -32901,6 +32936,12 @@ function createTask(data, prefix) {
   tree.append(container);
 }
 
+function clear_tree() {
+  while (tree.firstChild) {
+    tree.removeChild(tree.firstChild);
+  }
+}
+
 function not_dot(word) {
   let new_word = "";
   for (i = 0; i < word.length; i++)
@@ -32919,16 +32960,8 @@ function chooce_Color() {
   return color;
 }
 
-function draw_path(path, data) {
-  let prefix = "";
-
-  for (let i = 0; i < path.length; i++) {
-    const child = path[i];
-  }
-}
-
-function find_child(data, path, value) {
-  if (data.name.toLowerCase() === value) {
+function find_path(data, path, value) {
+  if (data.name === value) {
     console.log(data.name, value);
     path.push(data);
     return path;
@@ -32937,7 +32970,7 @@ function find_child(data, path, value) {
   for (let i = 0; i < data.children.length; i++) {
     const child = data.children[i];
     const pathCopy = [...path];
-    result = find_child(child, pathCopy, value);
+    result = find_path(child, pathCopy, value);
     if (result !== undefined) {
       return result;
     }
@@ -32945,5 +32978,4 @@ function find_child(data, path, value) {
   return undefined;
 }
 
-console.log(find_child(g_data, [], "Proof of concept"), "A");
-draw_tree(g_data, "");
+draw_tree_rec(g_data, "");
