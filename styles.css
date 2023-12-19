@@ -4,15 +4,29 @@
   height: 40px;
   margin-bottom: 4px;
   margin-left: 0;
-  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  flex: 1;
 }
 html,
 .root {
   padding: 0;
   margin: 0;
+}
+.budget,
+.state,
+.name {
+  flex: 1;
+}
+
+.budget {
+  text-align: end;
+  padding-left: 10px;
+}
+
+.state {
+  text-align: center;
 }
 
 #tree {
@@ -20,4 +34,22 @@ html,
   flex-direction: column;
   margin: 0;
   padding: 0;
+}
+
+.test {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.a {
+  flex: 1;
+  background-color: red;
+}
+.b {
+  flex: 1;
+  background-color: rgb(26, 216, 16);
+}
+.c {
+  flex: 1;
+  background-color: rgb(95, 18, 121);
 }

@@ -32844,7 +32844,13 @@ const g_data = {
 const padding = 15;
 const tree = document.getElementById("tree");
 let types = {};
+let translate = {
+  FINISHED: "hotovo",
+  ACTIVE: "aktivní",
+  CANCELLED: "zrušeno",
+};
 //  Blue-grey
+let indx_color = 0;
 const colors = [
   "#FFCC00",
   "#DD2E18",
@@ -32854,7 +32860,6 @@ const colors = [
   "#00DD00",
   "#DDD0C8",
 ];
-let indx_color = 0;
 // tangerine yellow, Harley Davidson Orange, Malachite green, Yellow-green, dim grey, Lime,  Beige
 
 function draw_tree(data, prefix) {
@@ -32862,7 +32867,7 @@ function draw_tree(data, prefix) {
     types[data.type] = chooce_Color();
     console.log(types);
   }
-  create_rectangle(data, prefix);
+  createTask(data, prefix);
   let count_child = 1;
   console.log(data.type);
   data.children.forEach((child) => {
@@ -32875,21 +32880,22 @@ function draw_tree(data, prefix) {
   });
 }
 
-function create_rectangle(data, prefix) {
+function createTask(data, prefix) {
   const container = document.createElement("div");
-  container.className = "container";
   const name = document.createElement("h2");
   let curr_margin = not_dot(prefix).length * padding;
-  console.log(curr_margin);
   name.textContent = prefix + " " + data.name;
   const state = document.createElement("h2");
-  state.textContent = data.state;
-  const plan = document.createElement("h2");
-  plan.textContent = data.moneyProjectPartState.plannedValue;
+  state.textContent = translate[data.state];
+  const budget = document.createElement("h2");
+  budget.textContent = data.moneyProjectPartState.plannedValue;
   container.style.marginLeft = curr_margin + "px";
-  container.append(name, state, plan);
+  container.append(name, state, budget);
   container.style.background = types[data.type];
-  console.log(types);
+  name.className = "name";
+  state.className = "state";
+  budget.className = "money";
+  container.className = "container";
   tree.append(container);
 }
 
@@ -32907,7 +32913,7 @@ function chooce_Color() {
     return "#" + Math.floor(Math.random() * 16777215).toString(16);
   }
   const color = colors[indx_color];
-  indx_color += 1;
+  indx_color ++;
   return color;
 }
 
