@@ -32840,28 +32840,75 @@ const g_data = {
   wbsElementDetail: null,
   workTypePlanDetail: null,
 };
-console.log(g_data);
-const padding = 5
+
+const padding = 15;
 const tree = document.getElementById("tree");
-function draw_tree(data, num) {
-  create_rectangle(data, num);
-  data.children.forEach(draw_tree);
+let types = {};
+//  Blue-grey
+const colors = [
+  "#FFCC00",
+  "#DD2E18",
+  "#31EC56",
+  "#AFA039",
+  "#6E6E6E",
+  "#00DD00",
+  "#DDD0C8",
+];
+let indx_color = 0;
+// tangerine yellow, Harley Davidson Orange, Malachite green, Yellow-green, dim grey, Lime,  Beige
+
+function draw_tree(data, prefix) {
+  if (types[data.type] === undefined) {
+    types[data.type] = chooce_Color();
+    console.log(types);
+  }
+  create_rectangle(data, prefix);
+  let count_child = 1;
+  console.log(data.type);
+  data.children.forEach((child) => {
+    if (prefix == "") {
+      draw_tree(child, prefix + count_child);
+    } else {
+      draw_tree(child, prefix + "." + count_child);
+    }
+    count_child++;
+  });
 }
 
-function create_rectangle(data, num) {
+function create_rectangle(data, prefix) {
   const container = document.createElement("div");
   container.className = "container";
-  // container.textContent = data.description;
   const name = document.createElement("h2");
-  console.log(num * 5);
-  name.textContent = num + " " + data.name;
+  let curr_margin = not_dot(prefix).length * padding;
+  console.log(curr_margin);
+  name.textContent = prefix + " " + data.name;
   const state = document.createElement("h2");
   state.textContent = data.state;
   const plan = document.createElement("h2");
   plan.textContent = data.moneyProjectPartState.plannedValue;
-
+  container.style.marginLeft = curr_margin + "px";
   container.append(name, state, plan);
+  container.style.background = types[data.type];
+  console.log(types);
   tree.append(container);
 }
 
-draw_tree(g_data, "1");
+function not_dot(word) {
+  let new_word = "";
+  for (i = 0; i < word.length; i++)
+    if (word[i] != ".") {
+      new_word += word[i];
+    }
+  return new_word;
+}
+
+function chooce_Color() {
+  if (indx_color == colors.length) {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }
+  const color = colors[indx_color];
+  indx_color += 1;
+  return color;
+}
+
+draw_tree(g_data, "");
