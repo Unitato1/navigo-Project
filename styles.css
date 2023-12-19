@@ -1,0 +1,15 @@
+.container {
+  border: 1px black solid;
+  margin-bottom: 20px;
+  padding: 20px;
+  height: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#tree {
+  display: flex;
+  flex-direction: column;
+}
